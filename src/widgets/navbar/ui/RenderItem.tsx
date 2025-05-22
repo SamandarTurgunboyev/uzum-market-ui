@@ -26,12 +26,15 @@ const RenderMenuItem = (item: MenuItem) => {
   }
 
   return (
-    <NavigationMenuItem key={item.title}>
+    <NavigationMenuItem key={item.url}>
       <NavigationMenuLink
         href={item.url}
         className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-muted hover:text-accent-foreground"
       >
         {item.title}
+        <div className="text-foreground">
+          {item.icon && <item.icon className="size-5 shrink-0" />}
+        </div>
       </NavigationMenuLink>
     </NavigationMenuItem>
   );

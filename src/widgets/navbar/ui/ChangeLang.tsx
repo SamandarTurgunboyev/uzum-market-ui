@@ -30,7 +30,7 @@ export function ChangeLang() {
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
           <GlobeIcon />
-          <span>{languages.find((e) => e.key == locale)?.name}</span>
+          <span>{languages.find((e) => e.key === locale)?.name}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

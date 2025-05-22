@@ -1,0 +1,28 @@
+import { Brend } from './model';
+
+export const BrendData: Brend[] = [
+  { label: 'Samsung', value: 'samsung' },
+  { label: 'Apple', value: 'apple' },
+  { label: 'Xiaomi', value: 'xiaomi' },
+  { label: 'Zegan', value: 'zegan' },
+  { label: 'Huawei', value: 'huawei' },
+  { label: 'OnePlus', value: 'oneplus' },
+  { label: 'Google', value: 'google' },
+  { label: 'Realme', value: 'realme' },
+  { label: 'Motorola', value: 'motorola' },
+  { label: 'Nokia', value: 'nokia' },
+  { label: 'Sony', value: 'sony' },
+  { label: 'HTC', value: 'htc' },
+  { label: 'Asus', value: 'asus' },
+  { label: 'Lenovo', value: 'lenovo' },
+  { label: 'LG', value: 'lg' },
+  { label: 'Tecno', value: 'tecno' },
+  { label: 'Infinix', value: 'infinix' },
+  { label: 'Vivo', value: 'vivo' },
+  { label: 'Honor', value: 'honor' },
+  { label: 'Meizu', value: 'meizu' },
+  { label: 'Alcatel', value: 'alcatel' },
+  { label: 'ZTE', value: 'zte' },
+  { label: 'Coolpad', value: 'coolpad' },
+  { label: 'BlackBerry', value: 'blackberry' },
+];

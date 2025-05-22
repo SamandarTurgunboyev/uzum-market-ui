@@ -2,6 +2,8 @@ import { PRODUCT_INFO } from '@/shared/constants/data';
 import { InstagramIcon, YoutubeIcon } from 'lucide-react';
 import { sections } from '../lib/data';
 import { ModeToggle } from '@/shared/ui/theme-toggle';
+import Link from 'next/link';
+import Image from 'next/image';
 
 const Footer = () => {
   return (
@@ -11,20 +13,17 @@ const Footer = () => {
           <div className="flex w-full flex-col items-center justify-between gap-6 lg:items-start">
             {/* Logo */}
             <div className="flex items-center gap-2 lg:justify-start">
-              <a href="https://shadcnblocks.com">
-                <img
+              <Link
+                href={'/'}
+                className="flex items-center gap-2 w-full h-20 aspect-[3/2]"
+              >
+                <Image
                   src={PRODUCT_INFO.logo}
+                  className="w-full"
                   alt={PRODUCT_INFO.name}
-                  title={PRODUCT_INFO.name}
-                  className="h-8"
                 />
-              </a>
-              <h2 className="text-xl font-semibold">{PRODUCT_INFO.name}</h2>
+              </Link>
             </div>
-            <p className="text-sm text-muted-foreground">
-              A collection of 100+ responsive HTML templates for your startup
-              business or side project.
-            </p>
             <ul className="flex items-center space-x-6 text-muted-foreground">
               <li className="font-medium hover:text-primary">
                 <a href="#">

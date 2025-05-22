@@ -18,6 +18,7 @@ import RenderMenuItem from './RenderItem';
 import RenderMobileMenuItem from './RenderMobileMenuItem';
 import { ChangeLang } from './ChangeLang';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Navbar = () => {
   const auth = {
@@ -32,15 +33,15 @@ const Navbar = () => {
         <nav className="hidden justify-between lg:flex">
           <div className="flex items-center gap-6">
             {/* Logo */}
-            <Link href={'/'} className="flex items-center gap-2">
-              <img
+            <Link
+              href={'/'}
+              className="flex items-center gap-2 w-full h-20 aspect-[3/2]"
+            >
+              <Image
                 src={PRODUCT_INFO.logo}
-                className="max-h-8"
+                className="w-full"
                 alt={PRODUCT_INFO.name}
               />
-              <span className="text-lg font-semibold tracking-tighter">
-                {PRODUCT_INFO.name}
-              </span>
             </Link>
             <div className="flex items-center">
               <NavigationMenu>
@@ -50,7 +51,7 @@ const Navbar = () => {
               </NavigationMenu>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 items-center">
             <ChangeLang />
             <Button asChild variant="outline">
               <Link href={auth.login.url}>{auth.login.title}</Link>
@@ -66,9 +67,9 @@ const Navbar = () => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link href={'/'} className="flex items-center gap-2">
-              <img
+              <Image
                 src={PRODUCT_INFO.logo}
-                className="max-h-8"
+                className="max-h-16"
                 alt={PRODUCT_INFO.name}
               />
             </Link>
@@ -85,9 +86,9 @@ const Navbar = () => {
                 <SheetHeader>
                   <SheetTitle>
                     <Link href={'/'} className="flex items-center gap-2">
-                      <img
+                      <Image
                         src={PRODUCT_INFO.logo}
-                        className="max-h-8"
+                        className="max-h-16"
                         alt={PRODUCT_INFO.name}
                       />
                     </Link>

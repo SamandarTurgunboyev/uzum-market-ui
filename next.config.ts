@@ -4,9 +4,12 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const nextConfig: NextConfig = {
   /* config options here */
   devIndicators: false,
-  // eslint: {
-  //   ignoreDuringBuilds: true,
-  // },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  images: {
+    domains: ['placehold.co'],
+  },
 };
 const withNextIntl = createNextIntlPlugin({
   requestConfig: './src/shared/config/i18n/request.ts',

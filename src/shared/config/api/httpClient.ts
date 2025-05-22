@@ -11,14 +11,11 @@ const httpClient = axios.create({
 
 httpClient.interceptors.request.use(
   async (config) => {
-    console.log(`API REQUEST to ${config.url}`, config);
-
     // Language configs
     let language = LanguageRoutes.UZ;
     try {
       language = (await getLocale()) as LanguageRoutes;
-    } catch (e) {
-      console.log('error', e);
+    } catch {
       language = getLocaleCS() || LanguageRoutes.UZ;
     }
 

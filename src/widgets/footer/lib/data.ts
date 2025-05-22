@@ -1,29 +1,19 @@
 const sections = [
   {
-    title: 'Product',
+    title: 'Mahsulotlar',
     links: [
-      { name: 'Overview', href: '#' },
-      { name: 'Pricing', href: '#' },
-      { name: 'Marketplace', href: '#' },
-      { name: 'Features', href: '#' },
+      { name: "Eng ko'p sotilgan", href: "Eng ko'p sotilgan" },
+      { name: 'Ommabop', href: 'Ommabop' },
+      { name: 'Chegirmalar', href: 'Chegirmalar' },
+      { name: 'Kategoriyalar', href: '#' },
     ],
   },
   {
-    title: 'Company',
+    title: 'Tanlangan mahsulotlar',
     links: [
-      { name: 'About', href: '#' },
-      { name: 'Team', href: '#' },
-      { name: 'Blog', href: '#' },
-      { name: 'Careers', href: '#' },
-    ],
-  },
-  {
-    title: 'Resources',
-    links: [
-      { name: 'Help', href: '#' },
-      { name: 'Sales', href: '#' },
-      { name: 'Advertise', href: '#' },
-      { name: 'Privacy', href: '#' },
+      { name: 'Yoqtirilgan mahsulotlar', href: '#' },
+      { name: "Saqlab qo'yilgan", href: '#' },
+      { name: 'Sharh bildirilgan', href: '#' },
     ],
   },
 ];
