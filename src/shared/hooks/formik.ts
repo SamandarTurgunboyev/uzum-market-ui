@@ -15,27 +15,21 @@ export const registerSchema = z.object({
   phoneNumber: z.string().min(2),
   firstName: z.string().min(3),
   lastName: z.string().min(3),
-  password: z
-    .string()
-    .min(8, {
-      message: "Parol kamida 8 ta belgidan iborat bo'lishi kerak",
-    })
-})
+  password: z.string().min(8, {
+    message: "Parol kamida 8 ta belgidan iborat bo'lishi kerak",
+  }),
+});
 
 export const loginSchema = z.object({
   phoneNumber: z.string().min(2),
-  password: z
-    .string()
-    .min(8, {
-      message: "Parol kamida 8 ta belgidan iborat bo'lishi kerak",
-    })
-})
+  password: z.string().min(8, {
+    message: "Parol kamida 8 ta belgidan iborat bo'lishi kerak",
+  }),
+});
 
 export const otpSchema = z.object({
   phoneNumber: z.string().min(2),
-  otp: z
-    .string()
-    .min(4, {
-      message: "Parol kamida 4 ta belgidan iborat bo'lishi kerak",
-    })
-})
+  otp: z.string().min(4, {
+    message: "Parol kamida 4 ta belgidan iborat bo'lishi kerak",
+  }),
+});

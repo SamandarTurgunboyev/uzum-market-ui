@@ -1,12 +1,12 @@
-import ConfirmPage from '@/widgets/confirmPage'
-import React from 'react'
+import ConfirmPage from '@/widgets/confirmPage';
+import React from 'react';
 
 const Confirm = () => {
-    return (
-        <div className='custom-container'>
-            <ConfirmPage />
-        </div>
-    )
-}
+  return (
+    <div className="custom-container">
+      <ConfirmPage />
+    </div>
+  );
+};
 
-export default Confirm
+export default Confirm;

@@ -17,7 +17,7 @@ const RenderMenuItem = (item: MenuItem) => {
           <p>{item.title}</p>
         </NavigationMenuTrigger>
         <NavigationMenuContent className="bg-popover text-popover-foreground">
-          <div className='w-80'>
+          <div className="w-80">
             {item.items.map((subItem) => (
               <NavigationMenuLink asChild key={subItem.title} className="w-80">
                 <SubMenuLink item={subItem} />

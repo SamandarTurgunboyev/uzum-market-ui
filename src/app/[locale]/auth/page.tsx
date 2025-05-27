@@ -1,12 +1,12 @@
-import LoginPage from '@/widgets/loginPage/ui'
-import React from 'react'
+import LoginPage from '@/widgets/loginPage/ui';
+import React from 'react';
 
 const Login = () => {
-    return (
-        <div className='custom-container'>
-            <LoginPage />
-        </div>
-    )
-}
+  return (
+    <div className="custom-container">
+      <LoginPage />
+    </div>
+  );
+};
 
-export default Login
+export default Login;

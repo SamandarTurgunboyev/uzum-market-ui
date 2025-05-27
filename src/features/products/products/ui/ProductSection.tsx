@@ -26,7 +26,7 @@ interface Data {
   price: string;
   discount?: string;
   rating: string;
-  id: number
+  id: number;
 }
 
 const ProductCards: FC<Props> = ({ data, label }) => {
@@ -107,7 +107,7 @@ const ProductCards: FC<Props> = ({ data, label }) => {
           </PaginationContent>
         </Pagination>
       </div>
-    </div >
+    </div>
   );
 };
 
