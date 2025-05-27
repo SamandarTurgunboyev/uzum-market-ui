@@ -4,7 +4,7 @@ import React from 'react';
 
 const SavedProducts = () => {
   return (
-    <div className="custom-container h-full flex gap-4">
+    <div className="custom-container h-full flex gap-4 max-md:flex-col">
       <Saved />
       <Formalization />
     </div>

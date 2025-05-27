@@ -1,11 +1,4 @@
-import {
-  Heart,
-  Logs,
-  MessagesSquare,
-  Percent,
-  ShoppingBag,
-  ShoppingCart,
-} from 'lucide-react';
+import { Heart, Logs, Percent, ShoppingBag, ShoppingCart } from 'lucide-react';
 import { MenuItem } from './model';
 import { LanguageRoutes } from '@/shared/config/i18n/types';
 
@@ -57,12 +50,12 @@ const menu: MenuItem[] = [
         icon: ShoppingCart,
         url: '/saved-products',
       },
-      {
-        title: 'Sharhlar',
-        description: 'Siz yozgan sharhlar',
-        icon: MessagesSquare,
-        url: 'comments',
-      },
+      // {
+      //   title: 'Sharhlar',
+      //   description: 'Siz yozgan sharhlar',
+      //   icon: MessagesSquare,
+      //   url: 'comments',
+      // },
     ],
   },
 ];

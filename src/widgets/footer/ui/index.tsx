@@ -1,5 +1,4 @@
 import { PRODUCT_INFO } from '@/shared/constants/data';
-import { InstagramIcon, YoutubeIcon } from 'lucide-react';
 import { sections } from '../lib/data';
 import { ModeToggle } from '@/shared/ui/theme-toggle';
 import Link from 'next/link';
@@ -18,40 +17,20 @@ const Footer = () => {
                 className="flex items-center gap-2 w-full h-20 aspect-[3/2]"
               >
                 <Image
+                  width={100}
+                  height={100}
                   src={PRODUCT_INFO.logo}
                   className="w-full"
                   alt={PRODUCT_INFO.name}
                 />
               </Link>
             </div>
-            <ul className="flex items-center space-x-6 text-muted-foreground">
-              <li className="font-medium hover:text-primary">
-                <a href="#">
-                  <InstagramIcon className="size-6" />
-                </a>
-              </li>
-              <li className="font-medium hover:text-primary">
-                <a href="#">
-                  <YoutubeIcon className="size-6" />
-                </a>
-              </li>
-              <li className="font-medium hover:text-primary">
-                <a href="#">
-                  <InstagramIcon className="size-6" />
-                </a>
-              </li>
-              <li className="font-medium hover:text-primary">
-                <a href="#">
-                  <InstagramIcon className="size-6" />
-                </a>
-              </li>
-            </ul>
             <ModeToggle />
           </div>
           <div className="grid w-full grid-cols-3 gap-6 lg:gap-20">
             {sections.map((section, sectionIdx) => (
               <div key={sectionIdx}>
-                <h3 className="mb-6 font-bold">{section.title}</h3>
+                <h1 className="mb-6 font-bold">{section.title}</h1>
                 <ul className="space-y-4 text-sm text-muted-foreground">
                   {section.links.map((link, linkIdx) => (
                     <li

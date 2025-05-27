@@ -2,6 +2,7 @@ import { ProductData } from './models';
 
 export const Bestseller: ProductData[] = [
   {
+    id: 1,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -10,6 +11,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 2,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -18,6 +20,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 3,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -26,6 +29,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 4,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -34,6 +38,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 5,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -42,6 +47,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 6,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -50,6 +56,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 7,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -58,6 +65,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 8,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -66,6 +74,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 9,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -74,6 +83,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 10,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -82,6 +92,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 11,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -90,6 +101,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 12,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -98,6 +110,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 13,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -106,6 +119,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 14,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -114,6 +128,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 15,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -122,6 +137,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 16,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -130,6 +146,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 17,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -138,6 +155,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 18,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -146,6 +164,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 19,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -154,6 +173,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 20,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -162,6 +182,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 21,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -170,6 +191,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 22,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -178,6 +200,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 23,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -186,6 +209,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 24,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -194,6 +218,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 25,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -202,6 +227,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
+    id: 26,
     image: 'https://placehold.co/300x400.jpg',
     like: true,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -210,14 +236,7 @@ export const Bestseller: ProductData[] = [
     rating: '4.3',
   },
   {
-    image: 'https://placehold.co/300x400.jpg',
-    like: true,
-    name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
-    price: '3.250.000',
-    discount: '4.250.000',
-    rating: '4.3',
-  },
-  {
+    id: 27,
     image: 'https://placehold.co/300x400.jpg',
     like: false,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',
@@ -226,6 +245,7 @@ export const Bestseller: ProductData[] = [
     rating: '4',
   },
   {
+    id: 28,
     image: 'https://placehold.co/300x400.jpg',
     like: false,
     name: 'Smartfon Xiaomi Redmi 14C, 8+256GB, 5160 mA/h batareya, tez zaryadlash 18W, kamera 50MP AI',

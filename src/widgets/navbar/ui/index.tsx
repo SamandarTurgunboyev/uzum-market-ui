@@ -22,8 +22,7 @@ import Image from 'next/image';
 
 const Navbar = () => {
   const auth = {
-    login: { title: 'Login', url: '#' },
-    signup: { title: 'Sign up', url: '#' },
+    login: { title: 'Login', url: '/auth' },
   };
 
   return (
@@ -39,6 +38,8 @@ const Navbar = () => {
             >
               <Image
                 src={PRODUCT_INFO.logo}
+                width={100}
+                height={100}
                 className="w-full"
                 alt={PRODUCT_INFO.name}
               />
@@ -53,12 +54,9 @@ const Navbar = () => {
           </div>
           <div className="flex gap-2 items-center">
             <ChangeLang />
-            <Button asChild variant="outline">
-              <Link href={auth.login.url}>{auth.login.title}</Link>
-            </Button>
-            <Button asChild>
-              <Link href={auth.signup.url}>{auth.signup.title}</Link>
-            </Button>
+            <Link href={auth.login.url}>
+              <Button variant="outline">{auth.login.title}</Button>
+            </Link>
           </div>
         </nav>
 
@@ -66,10 +64,12 @@ const Navbar = () => {
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href={'/'} className="flex items-center gap-2">
+            <Link href={'/'} className="flex items-center gap-2 h-14">
               <Image
+                width={100}
+                height={100}
                 src={PRODUCT_INFO.logo}
-                className="max-h-16"
+                className="w-auto h-auto"
                 alt={PRODUCT_INFO.name}
               />
             </Link>
@@ -89,6 +89,8 @@ const Navbar = () => {
                       <Image
                         src={PRODUCT_INFO.logo}
                         className="max-h-16"
+                        width={100}
+                        height={100}
                         alt={PRODUCT_INFO.name}
                       />
                     </Link>
@@ -106,9 +108,6 @@ const Navbar = () => {
                   <div className="flex flex-col gap-3">
                     <Button asChild variant="outline">
                       <Link href={auth.login.url}>{auth.login.title}</Link>
-                    </Button>
-                    <Button asChild>
-                      <Link href={auth.signup.url}>{auth.signup.title}</Link>
                     </Button>
                   </div>
                 </div>

@@ -17,25 +17,25 @@ const Filter = () => {
           <Link href="#">Aksessuarlar</Link>
           <Link href="#">Maishiy texnika</Link>
           <Link href="#">Maishiy kimyoviy moddalar</Link>
-          <Link href="#">Dacha, bog&lsquo va tomorqa</Link>
+          <Link href="#">{"Dacha, bog' va tomorqa"}</Link>
           <Link href="#">Bolalar tovarlari</Link>
           <Link href="#">Salomatlik</Link>
           <Link href="#">Hayvonlar uchun tovarlar</Link>
           <Link href="#">Kanselyariya tovarlari</Link>
           <Link href="#">Kitoblar</Link>
-          <Link href="#">Go&lsquozallik va Linkarvarish</Link>
+          <Link href="#">{"Go'zallik va Linkarvarish"}</Link>
           <Link href="#">Linkoyabzallar</Link>
           <Link href="#">Kiyim</Link>
           <Link href="#">Oziq-ovqat mahsulotlari</Link>
           <Link href="#">SLinkort va hordiq</Link>
           <Link href="#">Qurilish va taʼmirlash</Link>
-          <Link href="#">Uy-ro&lsquozg&lsquoor buyumlari</Link>
+          <Link href="#">{"Uy-ro'zg'or buyumlari"}</Link>
           <Link href="#">Xobbi va ijod</Link>
           <Link href="#">Elektronika</Link>
         </div>
       </div>
       <div className="flex flex-col mt-2">
-        <h1 className="text-center font-semibold text-xl">Narx so&lsquom</h1>
+        <h1 className="text-center font-semibold text-xl">{"Narx so'm"}</h1>
         <div className="flex gap-2 mt-2">
           <Input className="bg-white border-none" placeholder="dan" />
           <Input className="bg-white border-none" placeholder="gacha" />

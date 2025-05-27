@@ -1,3 +1,4 @@
+// components/ChangeLang.tsx
 'use client';
 
 import * as React from 'react';
@@ -11,17 +12,33 @@ import {
 import { Button } from '@/shared/ui/button';
 import { languages } from '../lib/data';
 import { useParams, usePathname, useRouter } from 'next/navigation';
+import { useLanguageStore } from '@/shared/hooks/languageStore';
+import { useEffect } from 'react';
 import { LanguageRoutes } from '@/shared/config/i18n/types';
 
 export function ChangeLang() {
+  const { language, setLanguage } = useLanguageStore();
   const { locale } = useParams();
   const pathname = usePathname();
   const router = useRouter();
 
-  const changeLocale = (locale: LanguageRoutes) => {
+  // URLdagi locale bilan Zustand holatini sinxronlashtirish
+  useEffect(() => {
+    if (locale && locale !== language) {
+      setLanguage(language as LanguageRoutes);
+      const segments = pathname.split('/');
+      segments[1] = language;
+      const newPath = segments.join('/');
+      setLanguage(language);
+      router.push(newPath);
+    }
+  }, [locale, language, pathname, router, setLanguage]);
+
+  const changeLocale = (newLocale: LanguageRoutes) => {
     const segments = pathname.split('/');
-    segments[1] = locale;
+    segments[1] = newLocale;
     const newPath = segments.join('/');
+    setLanguage(newLocale);
     router.push(newPath);
   };
 
@@ -30,7 +47,9 @@ export function ChangeLang() {
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
           <GlobeIcon />
-          <span>{languages.find((e) => e.key === locale)?.name}</span>
+          <span>
+            {languages.find((e) => e.key === language)?.name || 'Oʻzbek'}
+          </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

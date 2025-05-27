@@ -22,6 +22,7 @@ const CarouselSection = () => {
       ]}
     >
       <CarouselContent>
+        {/* Asosiy LCP rasm - priority */}
         <CarouselItem>
           <Image
             src="https://placehold.co/1280x500.jpg"
@@ -29,8 +30,11 @@ const CarouselSection = () => {
             height={700}
             className="w-full h-full object-cover"
             alt="Product1"
+            priority // LCP uchun asosiy rasm
           />
         </CarouselItem>
+
+        {/* Keyingi rasmlar - lazy loading */}
         <CarouselItem>
           <Image
             src="https://placehold.co/1280x500.jpg"
@@ -38,8 +42,10 @@ const CarouselSection = () => {
             height={700}
             className="w-full h-full object-cover"
             alt="Product2"
+            loading="lazy" // Ortiqcha yuklamaslik uchun
           />
         </CarouselItem>
+
         <CarouselItem>
           <Image
             src="https://placehold.co/1280x500.jpg"
@@ -47,6 +53,7 @@ const CarouselSection = () => {
             height={700}
             className="w-full h-full object-cover"
             alt="Product3"
+            loading="lazy"
           />
         </CarouselItem>
       </CarouselContent>
