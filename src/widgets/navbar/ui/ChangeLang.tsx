@@ -25,7 +25,6 @@ export function ChangeLang() {
   // URLdagi locale bilan Zustand holatini sinxronlashtirish
   useEffect(() => {
     if (locale && locale !== language) {
-      // setLanguage(locale as string);
       setLanguage(language as LanguageRoutes);
       const segments = pathname.split('/');
       segments[1] = language;
@@ -33,7 +32,7 @@ export function ChangeLang() {
       setLanguage(language);
       router.push(newPath);
     }
-  }, [locale, language, setLanguage]);
+  }, [locale, language, pathname, router, setLanguage]);
 
   const changeLocale = (newLocale: LanguageRoutes) => {
     const segments = pathname.split('/');
