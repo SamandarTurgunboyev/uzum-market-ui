@@ -26,6 +26,7 @@ interface Data {
   price: string;
   discount?: string;
   rating: string;
+  id: number
 }
 
 const ProductCards: FC<Props> = ({ data, label }) => {
@@ -48,15 +49,17 @@ const ProductCards: FC<Props> = ({ data, label }) => {
         <div className="grid grid-cols-4 gap-4 max-xl:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1">
           {data.slice(0, 12).map((e, index) => (
             <div key={index} className="relative">
-              <Image
-                src="https://placehold.co/300x400.jpg"
-                width={1280}
-                height={700}
-                alt="Product1"
-              />
-              <h1 className="px-2">
-                {e.name.length > 60 ? e.name.slice(0, 60) : e.name}...
-              </h1>
+              <Link href={`/product/${e.id}`}>
+                <Image
+                  src="https://placehold.co/300x400.jpg"
+                  width={1280}
+                  height={700}
+                  alt="Product1"
+                />
+                <h1 className="px-2">
+                  {e.name.length > 60 ? e.name.slice(0, 60) : e.name}...
+                </h1>
+              </Link>
               <div className="flex px-2 text-muted-foreground items-center gap-2">
                 <Star size={16} fill="gold" color="gold" />
                 <p>{e.rating}</p>
@@ -68,12 +71,16 @@ const ProductCards: FC<Props> = ({ data, label }) => {
                     {e.discount}
                   </span>
                 </p>
-                <Button className="rounded-md" variant={'outline'}>
+                <Button
+                  className="rounded-md"
+                  variant={'outline'}
+                  aria-label="saved"
+                >
                   <ShoppingCart />
                 </Button>
               </div>
               <div className="absolute top-1 right-1">
-                <Button variant={'outline'}>
+                <Button variant={'outline'} aria-label="like">
                   <Heart
                     color={e.like ? 'red' : 'black'}
                     fill={e.like ? 'red' : 'white'}
@@ -100,7 +107,7 @@ const ProductCards: FC<Props> = ({ data, label }) => {
           </PaginationContent>
         </Pagination>
       </div>
-    </div>
+    </div >
   );
 };
 
