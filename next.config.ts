@@ -8,7 +8,8 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ['placehold.co'],
+    domains: ['*'],
+    unoptimized: true,
   },
 };
 const withNextIntl = createNextIntlPlugin({

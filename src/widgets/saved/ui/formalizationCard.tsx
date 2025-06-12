@@ -1,6 +1,11 @@
 'use client';
 
+import Click from "@/assets/to'lov/click.png";
+import Money from "@/assets/to'lov/money.png";
+import Payme from "@/assets/to'lov/payme.png";
+import Uzum from "@/assets/to'lov/uzum.png";
 import { formSchema } from '@/shared/hooks/formik';
+import { Button } from '@/shared/ui/button';
 import {
   Form,
   FormControl,
@@ -8,12 +13,9 @@ import {
   FormItem,
   FormMessage,
 } from '@/shared/ui/form';
-import React, { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { Input } from '@/shared/ui/input';
-import { Button } from '@/shared/ui/button';
+import { Label } from '@/shared/ui/label';
+import { ScrollArea } from '@/shared/ui/scroll-area';
 import {
   Select,
   SelectContent,
@@ -21,16 +23,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/shared/ui/select';
-import { Label } from '@/shared/ui/label';
-import { useProduct } from '@/shared/hooks/productsave';
-import { ScrollArea } from '@/shared/ui/scroll-area';
+import { zodResolver } from '@hookform/resolvers/zod';
 import dynamic from 'next/dynamic';
-import { IEvent, Map } from 'yandex-maps';
 import Image from 'next/image';
-import Money from "@/assets/to'lov/money.png";
-import Payme from "@/assets/to'lov/payme.png";
-import Click from "@/assets/to'lov/click.png";
-import Uzum from "@/assets/to'lov/uzum.png";
+import { useEffect, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { IEvent, Map } from 'yandex-maps';
+import { z } from 'zod';
 
 const YMaps = dynamic(
   () => import('@pbe/react-yandex-maps').then((mod) => mod.YMaps),
@@ -53,30 +52,21 @@ const ZoomControl = dynamic(
   { ssr: false },
 );
 
-interface Product {
-  id: number;
-  title: string;
-  price: string;
-  count: number;
-}
-
 const FormalizationCard = () => {
-  const { product } = useProduct();
-  const [phoneCode, setPhoneCode] = useState<string>('998');
+  // const [phoneCode, setPhoneCode] = useState<string>('998');
   const [coords, setCoords] = useState<[number, number] | null>(null);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(
     null,
   );
   const mapRef = useRef<Map | undefined>(undefined);
-  const [price, setPrice] = useState<number>(0);
 
-  useEffect(() => {
-    const totalPrice = product.reduce((sum, item) => {
-      const cleanPrice = Number(String(item.price).replace(/[\s.]/g, ''));
-      return sum + cleanPrice * item.count;
-    }, 0);
-    setPrice(totalPrice);
-  }, [product]);
+  // useEffect(() => {
+  //   const totalPrice = product.reduce((sum, item) => {
+  //     const cleanPrice = Number(String(item.price).replace(/[\s.]/g, ''));
+  //     return sum + cleanPrice * item.count;
+  //   }, 0);
+  //   setPrice(totalPrice);
+  // }, [product]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -124,45 +114,37 @@ const FormalizationCard = () => {
     }
   }, [form]);
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    const payload = {
-      phone: phoneCode + values.phoneNumber,
-      userName: values.userName,
-      latitude: values.latitude,
-      longtitude: values.longtitude,
-      address: values.address,
-      paymentMethod: values.paymentMethod,
-    };
-    console.log(payload, 'form');
-  };
+  const onSubmit = () => {};
 
   return (
     <div className="w-full bg-white shadow p-2 max-w-full">
       <ScrollArea className="h-[400px] w-full border p-4">
-        {product.length === 0 ? (
+        {/* {product.length === 0 ? (
           <p className="text-center text-muted-foreground">
             {"Hech narsa yo'q"}
           </p>
         ) : (
-          product.map((pro: Product) => (
-            <div
-              key={pro.id}
-              className="bg-white shadow w-full mt-4 p-2 flex flex-col"
-            >
-              <h1 className="text-sm font-semibold">
-                {pro.title.length > 100
-                  ? pro.title.slice(0, 100) + '...'
-                  : pro.title}
-              </h1>
-              <h1 className="text-md font-semibold text-end">
-                {(
-                  Number(pro.price.replace(/[\s.]/g, '')) * pro.count
-                ).toLocaleString()}{' '}
-                {"so'm"}
-              </h1>
-            </div>
-          ))
-        )}
+          <>
+            {product.map((pro: Product) => (
+              <div
+                key={pro.id}
+                className="bg-white shadow w-full mt-4 p-2 flex flex-col"
+              >
+                <h1 className="text-sm font-semibold">
+                  {pro.title.length > 100
+                    ? pro.title.slice(0, 100) + '...'
+                    : pro.title}
+                </h1>
+                <h1 className="text-md font-semibold text-end">
+                  {(
+                    Number(pro.price.replace(/[\s.]/g, '')) * pro.count
+                  ).toLocaleString()}{' '}
+                  {"so'm"}
+                </h1>
+              </div>
+            ))}
+          </>
+        )} */}
       </ScrollArea>
 
       <div className="mt-5 bg-white shadow p-4">
@@ -190,7 +172,7 @@ const FormalizationCard = () => {
                   <FormControl>
                     <div className="flex gap-2">
                       <Select
-                        onValueChange={(e) => setPhoneCode(e)}
+                        // onValueChange={(e) => setPhoneCode(e)}
                         defaultValue="998"
                       >
                         <SelectTrigger className="w-[100px]">
@@ -316,7 +298,7 @@ const FormalizationCard = () => {
             />
 
             <Button type="submit" className="w-full">
-              Rasmiylashtirish ({price.toLocaleString()} {"so'm"})
+              Rasmiylashtirish
             </Button>
           </form>
         </Form>

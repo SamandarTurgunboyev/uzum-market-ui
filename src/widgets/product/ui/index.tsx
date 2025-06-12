@@ -1,6 +1,13 @@
 // components/ProductPage.tsx
 'use client';
 
+import Click from "@/assets/to'lov/click.png";
+import Money from "@/assets/to'lov/money.png";
+import Payme from "@/assets/to'lov/payme.png";
+import Uzum from "@/assets/to'lov/uzum.png";
+import { oneProduct } from '@/shared/config/api/productApi';
+import { IMAGE_URL } from '@/shared/config/api/URLs';
+import { useProduct } from '@/shared/hooks/productsave';
 import { Button } from '@/shared/ui/button';
 import {
   Carousel,
@@ -10,37 +17,33 @@ import {
   CarouselPrevious,
 } from '@/shared/ui/carousel';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/ui/tabs';
+import { useQuery } from '@tanstack/react-query';
 import { Check, Heart, Minus, Plus, Star } from 'lucide-react';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
 import Description from './description';
 import ImageCard from './imageCard';
-import Money from "@/assets/to'lov/money.png";
-import Payme from "@/assets/to'lov/payme.png";
-import Click from "@/assets/to'lov/click.png";
-import Uzum from "@/assets/to'lov/uzum.png";
-import { useProduct } from '@/shared/hooks/productsave';
 
 const ProductPage = () => {
   const [added, setAdded] = useState<boolean>(false);
-  const { setCreate } = useProduct();
+  const { product } = useParams();
 
-  const product = {
-    id: 1,
-    title:
-      "Ofis texnikalari uchun qog'oz varaqlari Sylvamo Svetotopy, A4f C07/3, 500 varaq",
-    price: "39.000 so'm",
-    count: 1,
-  };
+  const { setCreate } = useProduct();
+  const { data } = useQuery({
+    queryKey: ['oneProduct', product],
+    queryFn: () => oneProduct(String(product)),
+    select: (res) => res.data,
+  });
 
   const handleAddToCart = () => {
-    setCreate(product.id, product.title, product.price, product.count);
+    setCreate(data?.id, data?.name, data?.price);
     setAdded(true);
   };
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-xl font-semibold">{product.title}</h1>
+      <h1 className="text-xl font-semibold">{data?.name}</h1>
       <div className="flex items-center">
         {Array.from({ length: 5 }).map((_, index) => (
           <Star key={index} size={12} fill="gold" color="gold" />
@@ -56,18 +59,18 @@ const ProductPage = () => {
               className="w-full max-w-36 relative h-[600px] max-2xl:h-[450px] max-xl:h-[350px] mt-auto max-md:hidden"
             >
               <CarouselContent className="h-[600px] max-2xl:h-[450px] max-xl:h-[350px]">
-                {Array.from({ length: 6 }).map((_, index) => (
+                {data?.media.map((e, index: number) => (
                   <CarouselItem
                     key={index}
                     className="basis-1/3 max-xl:basis-1/2"
                   >
                     <div className="p-1">
                       <Image
-                        src="https://placehold.co/300x400.jpg"
+                        src={IMAGE_URL + e}
                         width={300}
                         height={400}
                         alt="Product image"
-                        className="w-full h-auto"
+                        className="w-full h-[150px] object-cover"
                       />
                     </div>
                   </CarouselItem>
@@ -78,20 +81,20 @@ const ProductPage = () => {
                 <CarouselNext />
               </div>
             </Carousel>
-            <Carousel className="w-full relative">
+            <Carousel className="w-full relative h-full">
               <CarouselContent>
-                {Array.from({ length: 5 }).map((_, index) => (
+                {data?.media.map((e, index: number) => (
                   <CarouselItem
                     key={index}
-                    className="basis-1/2 max-md:basis-1/1"
+                    className="basis-1/2 max-md:basis-1/1 h-full"
                   >
                     <div className="p-1">
                       <Image
-                        src="https://placehold.co/300x400.jpg"
+                        src={IMAGE_URL + e}
                         width={300}
                         height={400}
                         alt="Product image"
-                        className="w-full h-full"
+                        className="w-full h-[400px] object-cover"
                       />
                     </div>
                   </CarouselItem>
@@ -103,7 +106,6 @@ const ProductPage = () => {
               </div>
             </Carousel>
           </div>
-          {/* sharhlar */}
           <Carousel className="w-full relative mt-5">
             <CarouselContent className="-ml-1">
               {Array.from({ length: 5 }).map((_, index) => (
@@ -143,18 +145,16 @@ const ProductPage = () => {
               <TabsTrigger value="image">Mahsulot rasmlari</TabsTrigger>
             </TabsList>
             <TabsContent value="description" className="mt-4">
-              <Description />
+              <Description desc={data?.description ?? ''} />
             </TabsContent>
             <TabsContent value="image" className="mt-4">
-              <ImageCard />
+              <ImageCard images={data?.banner ?? []} />
             </TabsContent>
           </Tabs>
         </div>
         <div className="w-[30%] max-lg:mt-5 max-lg:w-full min-lg:p-4">
           <div className="bg-white shadow p-2">
-            <p className="font-semibold text-lg inline-block">
-              {product.price}
-            </p>
+            <p className="font-semibold text-lg inline-block">{data?.price}</p>
             <span className="ml-4 font-semibold text-sm line-through">
               {"49.000 so'm"}
             </span>
