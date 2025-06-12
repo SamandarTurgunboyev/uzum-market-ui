@@ -3,15 +3,14 @@ import { Roles } from '@/shared/types/role';
 import type { ReactNode } from 'react';
 
 interface Props {
-  role: Roles[];
+  role: Roles[] | undefined;
   children: ReactNode;
 }
 
 const WithRole = ({ role, children }: Props) => {
-  const currentUserRole = userStore.getState().role;
-  const roles = role.includes(currentUserRole);
+  const currentUserRole = userStore.getState().user?.roles;
 
-  if (!roles) {
+  if (!currentUserRole || !role?.includes(currentUserRole as Roles)) {
     return <></>;
   }
 
