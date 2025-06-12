@@ -1,3 +1,5 @@
+'use client';
+
 import LoginPage from '@/widgets/loginPage/ui';
 import React from 'react';
 

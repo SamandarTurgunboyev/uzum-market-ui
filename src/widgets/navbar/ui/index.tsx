@@ -1,3 +1,6 @@
+import { getMe } from '@/shared/config/api/authApi';
+import { PRODUCT_INFO } from '@/shared/constants/data';
+import { userStore } from '@/shared/hooks/userStore';
 import { Accordion } from '@/shared/ui/accordion';
 import { Button } from '@/shared/ui/button';
 import {
@@ -11,19 +14,31 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/shared/ui/sheet';
-import { Menu } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { LoaderCircle, Menu } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect } from 'react';
 import { menu } from '../lib/data';
-import { PRODUCT_INFO } from '@/shared/constants/data';
+import { ChangeLang } from './ChangeLang';
 import RenderMenuItem from './RenderItem';
 import RenderMobileMenuItem from './RenderMobileMenuItem';
-import { ChangeLang } from './ChangeLang';
-import Link from 'next/link';
-import Image from 'next/image';
 
 const Navbar = () => {
   const auth = {
     login: { title: 'Login', url: '/auth' },
   };
+
+  const { onChangeUser } = userStore();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['getMe'],
+    queryFn: getMe,
+  });
+
+  useEffect(() => {
+    onChangeUser(data?.data);
+  }, [data?.data, onChangeUser]);
 
   return (
     <section className="py-4">
@@ -54,9 +69,21 @@ const Navbar = () => {
           </div>
           <div className="flex gap-2 items-center">
             <ChangeLang />
-            <Link href={auth.login.url}>
-              <Button variant="outline">{auth.login.title}</Button>
-            </Link>
+            {isLoading ? (
+              <Button variant="outline">
+                <LoaderCircle className="animate-spin" />
+              </Button>
+            ) : data?.data ? (
+              <Button variant="outline">
+                <Link href={'/profile/'}>
+                  {data.data.firstName.slice(0, 1).toUpperCase()}
+                </Link>
+              </Button>
+            ) : (
+              <Link href={auth.login.url}>
+                <Button variant="outline">{auth.login.title}</Button>
+              </Link>
+            )}
           </div>
         </nav>
 

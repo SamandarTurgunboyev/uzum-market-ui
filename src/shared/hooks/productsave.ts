@@ -1,9 +1,19 @@
 import { create } from 'zustand';
 
 type Product = {
-  product: { id: number; title: string; price: string; count: number }[];
-  setCreate: (id: number, title: string, price: string, count?: number) => void;
-  removeProduct: (id: number) => void;
+  product: {
+    id: number | undefined;
+    title: string | undefined;
+    price: string | undefined;
+    count: number | undefined;
+  }[];
+  setCreate: (
+    id: number | undefined,
+    title: string | undefined,
+    price: string | undefined,
+    count?: number,
+  ) => void;
+  removeProduct: (id: number | undefined) => void;
   updateCount: (id: number, count: number) => void;
 };
 
@@ -12,7 +22,7 @@ export const useProduct = create<Product>()((set) => ({
   setCreate: (id, title, price, count = 1) =>
     set((state) => {
       if (state.product.some((item) => item.id === id)) {
-        return state; // Prevent duplicates
+        return state;
       }
       return {
         product: [...state.product, { id, title, price, count }],

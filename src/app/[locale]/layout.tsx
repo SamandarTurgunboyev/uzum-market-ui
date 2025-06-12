@@ -11,6 +11,7 @@ import QueryProvider from '@/shared/config/react-query/QueryProvider';
 import Script from 'next/script';
 import ClientLayout from './clientLayout';
 import { routing } from '@/shared/config/i18n/routing';
+import { Toaster } from 'sonner';
 
 export const metadata: Metadata = {
   title: PRODUCT_INFO.name,
@@ -48,6 +49,7 @@ export default async function RootLayout({ children, params }: Props) {
           >
             <QueryProvider>
               <ClientLayout>{children}</ClientLayout>
+              <Toaster richColors position="top-center" />
             </QueryProvider>
           </ThemeProvider>
         </NextIntlClientProvider>

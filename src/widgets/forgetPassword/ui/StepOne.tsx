@@ -1,18 +1,8 @@
-'use client';
-
-import { auhLogin } from '@/shared/config/api/authApi';
+import { authForgetPassword } from '@/shared/config/api/authApi';
 import { getAllCountry } from '@/shared/config/api/countries';
-import { loginSchema } from '@/shared/hooks/formik';
-import { saveAccToken, saveRefToken } from '@/shared/lib/token';
+import { usePhoneNumber } from '@/shared/hooks/phoneStore';
 import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/shared/ui/card';
 import {
   Command,
   CommandEmpty,
@@ -33,71 +23,77 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@radix-ui/react-label';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Check, ChevronsUpDown, Loader } from 'lucide-react';
+import { Check, ChevronsUpDown } from 'lucide-react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { forgetPasswordValidations } from '../lib/validation';
 
-const LoginForm = () => {
-  const { data: country } = useQuery({
+interface Props {
+  step: number;
+  setStep: Dispatch<SetStateAction<number>>;
+}
+
+const StepOne = ({ setStep, step }: Props) => {
+  const { data: country, isLoading } = useQuery({
     queryKey: ['country'],
     queryFn: getAllCountry,
   });
+  const { setPhone } = usePhoneNumber();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState('');
-  const router = useRouter();
+  const forgetpasswordForm = useForm<z.infer<typeof forgetPasswordValidations>>(
+    {
+      resolver: zodResolver(forgetPasswordValidations),
+      defaultValues: {
+        phone: '',
+      },
+    },
+  );
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (body: z.infer<typeof loginSchema>) => {
-      return auhLogin({ ...body });
+    mutationFn: (body: z.infer<typeof forgetPasswordValidations>) => {
+      return authForgetPassword({ ...body });
     },
-    onSuccess: (res) => {
-      saveAccToken('uzum-acc', res?.data.accessToken);
-      saveRefToken('uzum-ref', res?.data.refreshToken);
-      router.push('/');
-      toast.success("Ro'yxatdan o'tish muvaffaqiyatli!");
+    onSuccess: () => {
+      setStep(step + 1);
+      toast.success('Tasdiqlash kodi yuborildi');
     },
     onError: () => {
       toast.error('Xatolik yuz berdi');
     },
   });
 
-  const form = useForm<z.infer<typeof loginSchema>>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      password: '',
-      phone: '',
-    },
-  });
+  function onSubmit(values: z.infer<typeof forgetPasswordValidations>) {
+    if (!value) {
+      toast.error('Telefon kodi tanlanmagan');
+    }
 
-  function onSubmit(values: z.infer<typeof loginSchema>) {
     const payload = {
-      password: values.password,
       phone: value + values.phone,
     };
+
+    setPhone(payload.phone);
     mutate(payload);
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Hisobga kirish</CardTitle>
-        <CardDescription>
-          {"Kerakli ma'lumotlarni to'ldiring va hisobingizga kiring!"}
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+    <div>
+      {step === 0 && (
+        <Form {...forgetpasswordForm}>
+          <form
+            onSubmit={forgetpasswordForm.handleSubmit(onSubmit)}
+            className="grid gap-y-4"
+          >
             <FormField
-              control={form.control}
+              key="phone"
+              control={forgetpasswordForm.control}
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <Label>Telefon raqami</Label>
+                  <Label>Phone</Label>
                   <FormControl>
                     <div className="flex gap-2">
                       <Popover open={open} onOpenChange={setOpen}>
@@ -107,14 +103,18 @@ const LoginForm = () => {
                             role="combobox"
                             aria-expanded={open}
                             className="w-[100px] justify-between"
+                            disabled={isLoading || isPending}
                           >
                             {value ? (
                               <>
                                 <Image
-                                  src={`https://flagcdn.com/16x12/${country?.data.find((framework) => framework.phonecode === value)?.isoCode.toLowerCase()}.png`}
-                                  width={100}
-                                  height={100}
-                                  alt={'coutry'}
+                                  src={`https://flagcdn.com/16x12/${country?.data
+                                    .find(
+                                      (framework) =>
+                                        framework.phonecode === value,
+                                    )
+                                    ?.isoCode.toLowerCase()}.png`}
+                                  alt="flag"
                                 />
                                 {
                                   country?.data.find(
@@ -174,6 +174,8 @@ const LoginForm = () => {
                       <Input
                         placeholder="Telefon raqami"
                         {...field}
+                        value={field.value}
+                        onChange={field.onChange}
                         disabled={isPending}
                       />
                     </div>
@@ -182,47 +184,30 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <Label>Parol</Label>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="Parol"
-                      {...field}
-                      disabled={isPending}
-                    />
-                  </FormControl>
-                  <div className="w-full flex justify-end">
-                    <Button
-                      className="cursor-pointer w-fit text-sm"
-                      size={'sm'}
-                      type="button"
-                      variant={'ghost'}
-                      onClick={() => router.push('/auth/forget-password')}
-                    >
-                      <p className="text-red-600">Forget password?</p>
-                    </Button>
-                  </div>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              type="submit"
-              className="w-full bg-gray-300/40 shadow"
-              variant="ghost"
-            >
-              {isPending ? <Loader className="animate-spin" /> : 'Davom etish'}
-            </Button>
+            <div className="flex justify-between">
+              <Button
+                type="button"
+                className="font-medium"
+                size="sm"
+                onClick={() => setStep(step - 1)}
+                disabled={step === 0}
+              >
+                Back
+              </Button>
+              <Button
+                type="submit"
+                size="sm"
+                className="font-medium"
+                disabled={isPending}
+              >
+                Next
+              </Button>
+            </div>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+      )}
+    </div>
   );
 };
 
-export default LoginForm;
+export default StepOne;

@@ -1,5 +1,6 @@
 'use client';
 
+import { register } from '@/shared/config/api/authApi';
 import { registerSchema } from '@/shared/hooks/formik';
 import { usePhoneNumber } from '@/shared/hooks/phoneStore';
 import { Button } from '@/shared/ui/button';
@@ -27,9 +28,14 @@ import {
 } from '@/shared/ui/select';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@radix-ui/react-label';
+import { useMutation } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { Loader } from 'lucide-react';
+import { ApiError } from 'next/dist/server/api-utils';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 const RegisterForm = () => {
@@ -37,20 +43,39 @@ const RegisterForm = () => {
   const router = useRouter();
   const { setPhone } = usePhoneNumber();
 
+  const { mutate, isPending } = useMutation({
+    mutationFn: (body: z.infer<typeof registerSchema>) => {
+      return register({ ...body });
+    },
+    onSuccess: () => {
+      const fullPhoneNumber = `${phoneCode}${form.getValues().phone}`;
+      setPhone(fullPhoneNumber);
+      toast.success("Ro'yxatdan o'tish muvaffaqiyatli!");
+      router.push('/auth/confirm');
+    },
+    onError: (error: AxiosError<ApiError>) => {
+      toast.error(error.response?.data?.message || 'Xatolik yuz berdi'); // 🔥 Error toast
+    },
+  });
+
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
       firstName: '',
       lastName: '',
       password: '',
-      phoneNumber: '',
+      phone: '',
     },
   });
 
-  function onSubmit(values: z.infer<typeof registerSchema>) {
-    const fullPhoneNumber = `+${phoneCode}${values.phoneNumber}`;
-    setPhone(fullPhoneNumber);
-    router.push('/auth/confirm');
+  async function onSubmit(values: z.infer<typeof registerSchema>) {
+    const payload = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      password: values.password,
+      phone: `${phoneCode}${values.phone}`,
+    };
+    mutate(payload);
   }
   return (
     <Card>
@@ -70,7 +95,7 @@ const RegisterForm = () => {
                 <FormItem>
                   <Label>Ismingizni kiriting</Label>
                   <FormControl>
-                    <Input placeholder="Ism" {...field} />
+                    <Input placeholder="Ism" {...field} disabled={isPending} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -83,7 +108,11 @@ const RegisterForm = () => {
                 <FormItem>
                   <Label>Familiyangizni kiriting</Label>
                   <FormControl>
-                    <Input placeholder="Familiya" {...field} />
+                    <Input
+                      placeholder="Familiya"
+                      {...field}
+                      disabled={isPending}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -91,13 +120,17 @@ const RegisterForm = () => {
             />
             <FormField
               control={form.control}
-              name="phoneNumber"
+              name="phone"
               render={({ field }) => (
                 <FormItem>
                   <Label>Aloqa uchun telefon raqami</Label>
                   <FormControl>
                     <div className="flex gap-2">
-                      <Select onValueChange={setPhoneCode} defaultValue="998">
+                      <Select
+                        onValueChange={setPhoneCode}
+                        defaultValue="998"
+                        disabled={isPending}
+                      >
                         <SelectTrigger className="w-[100px]">
                           <SelectValue placeholder="Code" />
                         </SelectTrigger>
@@ -107,7 +140,11 @@ const RegisterForm = () => {
                           <SelectItem value="996">+996</SelectItem>
                         </SelectContent>
                       </Select>
-                      <Input placeholder="Telefon raqami" {...field} />
+                      <Input
+                        placeholder="Telefon raqami"
+                        {...field}
+                        disabled={isPending}
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />
@@ -121,7 +158,12 @@ const RegisterForm = () => {
                 <FormItem>
                   <Label>Parol</Label>
                   <FormControl>
-                    <Input type="password" placeholder="Parol" {...field} />
+                    <Input
+                      type="password"
+                      placeholder="Parol"
+                      {...field}
+                      disabled={isPending}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -131,8 +173,9 @@ const RegisterForm = () => {
               type="submit"
               className="w-full bg-gray-300/40 shadow"
               variant="ghost"
+              disabled={isPending}
             >
-              Davom etish
+              {isPending ? <Loader className="animate-spin" /> : 'Davom etish'}
             </Button>
           </form>
         </Form>

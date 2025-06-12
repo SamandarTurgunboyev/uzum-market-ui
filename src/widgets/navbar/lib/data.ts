@@ -70,8 +70,8 @@ const languages: { name: string; key: LanguageRoutes }[] = [
     key: LanguageRoutes.KI,
   },
   {
-    name: 'Русский',
-    key: LanguageRoutes.RU,
+    name: 'English',
+    key: LanguageRoutes.EN,
   },
 ];
 

@@ -1,7 +1,9 @@
 'use client';
 
+import { registerConfirm } from '@/shared/config/api/authApi';
 import { otpSchema } from '@/shared/hooks/formik';
 import { usePhoneNumber } from '@/shared/hooks/phoneStore';
+import { saveAccToken, saveRefToken } from '@/shared/lib/token';
 import { Button } from '@/shared/ui/button';
 import {
   Card,
@@ -13,27 +15,38 @@ import {
 import { Form, FormField } from '@/shared/ui/form';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/shared/ui/input-otp';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
 import { REGEXP_ONLY_DIGITS } from 'input-otp';
-import React from 'react';
+import { Loader } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const ConfirmPage = () => {
   const { phone } = usePhoneNumber();
+  const router = useRouter();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (body: z.infer<typeof otpSchema>) => {
+      return registerConfirm({ ...body, phone });
+    },
+    onSuccess: (res) => {
+      saveAccToken('uzum-acc', res?.data.access_token);
+      saveRefToken('uzum-ref', res?.data.refreshToken);
+      router.push('/');
+    },
+  });
+
   const form = useForm<z.infer<typeof otpSchema>>({
     resolver: zodResolver(otpSchema),
     defaultValues: {
       otp: '',
-      phoneNumber: phone,
+      phone,
     },
   });
 
   function onSubmit(values: z.infer<typeof otpSchema>) {
-    const payload = {
-      phoneNumber: values.phoneNumber,
-      otp: values.otp,
-    };
-    console.log(payload, 'otp');
+    mutate(values);
   }
 
   return (
@@ -53,6 +66,7 @@ const ConfirmPage = () => {
                 name="otp"
                 render={({ field }) => (
                   <InputOTP
+                    disabled={isPending}
                     maxLength={4}
                     pattern={REGEXP_ONLY_DIGITS}
                     {...field}
@@ -71,7 +85,7 @@ const ConfirmPage = () => {
                 className="w-full bg-gray-300/40 shadow"
                 variant="ghost"
               >
-                Tasdiqlash
+                {isPending ? <Loader className="animate-spin" /> : 'Tasdiqlash'}
               </Button>
             </form>
           </Form>
