@@ -21,13 +21,13 @@ const Welcome = () => {
     <div className="custom-container w-full h-full relative">
       <CarouselSection data={carousel?.data} />
       <ProductSection
-        data={data}
+        data={data?.data}
         label="Eng ko'p sotilgan"
         loading={isLoading}
       />
-      <ProductSection data={data} label="Ommabop" />
-      <ProductSection data={data} label="Chegirmagan tushganlar" />
-      <ProductSection data={data} label="Reytingi baland" />
+      <ProductSection data={data?.data} label="Ommabop" />
+      <ProductSection data={data?.data} label="Chegirmagan tushganlar" />
+      <ProductSection data={data?.data} label="Reytingi baland" />
     </div>
   );
 };

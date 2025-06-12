@@ -1,5 +1,6 @@
 import LoadingCard from '@/features/loadingCard/loadingCard';
 import { IMAGE_URL } from '@/shared/config/api/URLs';
+import { GetAllProductDataResModels } from '@/shared/types/productApi';
 import { Button } from '@/shared/ui/button';
 import {
   Carousel,
@@ -14,20 +15,9 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 interface Props {
-  data: Data[];
+  data: GetAllProductDataResModels[] | undefined;
   label: string;
   loading?: boolean;
-}
-
-interface Data {
-  image: string;
-  media?: string[];
-  name: string;
-  like: boolean;
-  price: string;
-  discount?: string;
-  rating: string;
-  _id: number;
 }
 
 const ProductSection: FC<Props> = ({ data, label, loading = false }) => {
@@ -49,7 +39,7 @@ const ProductSection: FC<Props> = ({ data, label, loading = false }) => {
                   className="basis-1/5 max-2xl:basis-1/5 max-xl:basis-1/4 max-lg:basis-1/3 max-md:basis-1/2 max-sm:basis-1/1 relative cursor-pointer h-[400px]"
                 >
                   <article className="relative h-full">
-                    <Link href={`/product/${e._id}`}>
+                    <Link href={`/product/${e.id}`}>
                       <Image
                         src={
                           !e.media || e.media.length === 0
@@ -65,15 +55,15 @@ const ProductSection: FC<Props> = ({ data, label, loading = false }) => {
                       <h3 className="px-2 truncate">{e.name}</h3>
                       <p className="flex items-center px-2 text-muted-foreground gap-1">
                         <Star size={16} fill="gold" color="gold" />
-                        {e.rating}
+                        {/* {e.rating} */}
                       </p>
                     </Link>
                     <div className="flex justify-between items-center px-2 mt-2">
                       <span className="font-bold">
                         {e.price}
-                        {e.discount && (
+                        {e.disCount && (
                           <span className="text-muted-foreground px-2 line-through">
-                            {e.discount}
+                            {e.disPrice}
                           </span>
                         )}
                       </span>
@@ -92,8 +82,8 @@ const ProductSection: FC<Props> = ({ data, label, loading = false }) => {
                       aria-label="like"
                     >
                       <Heart
-                        color={e.like ? 'red' : 'black'}
-                        fill={e.like ? 'red' : 'white'}
+                        // color={e.like ? 'red' : 'black'}
+                        // fill={e.like ? 'red' : 'white'}
                         size={18}
                       />
                     </Button>
