@@ -2,27 +2,25 @@
 
 import { useProduct } from '@/shared/hooks/productsave';
 import { Button } from '@/shared/ui/button';
-import { ScrollArea } from '@/shared/ui/scroll-area';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
 
 const Formalization = () => {
   const { product } = useProduct();
-  const [price, setPrice] = useState<number>(0);
+  // const [price, setPrice] = useState<number>(0);
   const navigation = useRouter();
 
-  useEffect(() => {
-    const totalPrice = product.reduce((sum, item) => {
-      const cleanPrice = Number(String(item.price).replace(/[\s.]/g, '')); // Handle "3 250 000" or "3.250.000"
-      return sum + cleanPrice * item.count;
-    }, 0);
-    setPrice(totalPrice);
-  }, [product]);
+  // useEffect(() => {
+  //   const totalPrice = product.reduce((sum, item) => {
+  //     const cleanPrice = Number(String(item.price).replace(/[\s.]/g, '')); // Handle "3 250 000" or "3.250.000"
+  //     return sum + cleanPrice * item.count;
+  //   }, 0);
+  //   setPrice(totalPrice);
+  // }, [product]);
 
   return (
     <div className="w-[30%] bg-white shadow text-center p-4 max-md:w-full">
       <h1 className="font-semibold">Yetkazib berish mutloqo bepul</h1>
-      <ScrollArea className="h-[600px] mt-10">
+      {/* <ScrollArea className="h-[600px] mt-10">
         <ScrollArea className="h-[600px]">
           {product.length === 0 ? (
             <p className="text-center text-muted-foreground">
@@ -43,9 +41,10 @@ const Formalization = () => {
             ))
           )}
         </ScrollArea>
-      </ScrollArea>
+      </ScrollArea> */}
       <div className="mt-4 font-semibold">
-        Umumiy summa: {price.toLocaleString()} {"so'm"}
+        Umumiy summa:
+        {/* {price.toLocaleString()} {"so'm"} */}
       </div>
       <Button
         className="mt-5 w-full cursor-pointer"
