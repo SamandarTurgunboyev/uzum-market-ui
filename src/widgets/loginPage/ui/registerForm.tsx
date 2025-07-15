@@ -1,8 +1,10 @@
 'use client';
 
 import { register } from '@/shared/config/api/authApi';
+import { getAllCountry } from '@/shared/config/api/countries';
 import { registerSchema } from '@/shared/hooks/formik';
 import { usePhoneNumber } from '@/shared/hooks/phoneStore';
+import { cn } from '@/shared/lib/utils';
 import { Button } from '@/shared/ui/button';
 import {
   Card,
@@ -12,6 +14,14 @@ import {
   CardTitle,
 } from '@/shared/ui/card';
 import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/shared/ui/command';
+import {
   Form,
   FormControl,
   FormField,
@@ -19,19 +29,20 @@ import {
   FormMessage,
 } from '@/shared/ui/form';
 import { Input } from '@/shared/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/shared/ui/select';
+import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@radix-ui/react-label';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { Loader } from 'lucide-react';
+import {
+  Check,
+  ChevronsUpDown,
+  Loader,
+  LockIcon,
+  UnlockIcon,
+} from 'lucide-react';
 import { ApiError } from 'next/dist/server/api-utils';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -39,8 +50,14 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 
 const RegisterForm = () => {
-  const [phoneCode, setPhoneCode] = useState<string>('998');
+  const { data: country } = useQuery({
+    queryKey: ['country'],
+    queryFn: getAllCountry,
+  });
+  const [value, setValue] = useState('');
+  const [pass, setPass] = useState<boolean>(false);
   const router = useRouter();
+  const [open, setOpen] = useState(false);
   const { setPhone } = usePhoneNumber();
 
   const { mutate, isPending } = useMutation({
@@ -48,7 +65,7 @@ const RegisterForm = () => {
       return register({ ...body });
     },
     onSuccess: () => {
-      const fullPhoneNumber = `${phoneCode}${form.getValues().phone}`;
+      const fullPhoneNumber = `${value}${form.getValues().phone}`;
       setPhone(fullPhoneNumber);
       toast.success("Ro'yxatdan o'tish muvaffaqiyatli!");
       router.push('/auth/confirm');
@@ -73,7 +90,7 @@ const RegisterForm = () => {
       firstName: values.firstName,
       lastName: values.lastName,
       password: values.password,
-      phone: `${phoneCode}${values.phone}`,
+      phone: value + values.phone,
     };
     mutate(payload);
   }
@@ -123,23 +140,82 @@ const RegisterForm = () => {
               name="phone"
               render={({ field }) => (
                 <FormItem>
-                  <Label>Aloqa uchun telefon raqami</Label>
+                  <Label>Telefon raqami</Label>
                   <FormControl>
                     <div className="flex gap-2">
-                      <Select
-                        onValueChange={setPhoneCode}
-                        defaultValue="998"
-                        disabled={isPending}
-                      >
-                        <SelectTrigger className="w-[100px]">
-                          <SelectValue placeholder="Code" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="998">+998</SelectItem>
-                          <SelectItem value="1">+1</SelectItem>
-                          <SelectItem value="996">+996</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <Popover open={open} onOpenChange={setOpen}>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={open}
+                            className="w-[100px] justify-between"
+                          >
+                            {value ? (
+                              <>
+                                <Image
+                                  src={`https://flagcdn.com/16x12/${country?.data.find((framework) => framework.phonecode === value)?.isoCode.toLowerCase()}.png`}
+                                  width={12}
+                                  height={15}
+                                  alt={'coutry'}
+                                />
+                                {
+                                  country?.data.find(
+                                    (framework) =>
+                                      framework.phonecode === value,
+                                  )?.phonecode
+                                }
+                              </>
+                            ) : (
+                              'Code'
+                            )}
+                            <ChevronsUpDown className="opacity-50" />
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-[200px] h-[250px] p-0">
+                          <Command>
+                            <CommandInput
+                              placeholder="Search Code..."
+                              className="h-9"
+                            />
+                            <CommandList>
+                              <CommandEmpty>No Code found.</CommandEmpty>
+                              <CommandGroup>
+                                {country?.data.map((framework) => (
+                                  <CommandItem
+                                    key={framework.phonecode}
+                                    value={framework.phonecode}
+                                    onSelect={(currentValue) => {
+                                      setValue(
+                                        currentValue === value
+                                          ? ''
+                                          : currentValue,
+                                      );
+                                      setOpen(false);
+                                    }}
+                                  >
+                                    <Image
+                                      src={`https://flagcdn.com/16x12/${framework.isoCode.toLowerCase()}.png`}
+                                      alt={framework.name}
+                                      width={12}
+                                      height={16}
+                                    />
+                                    {framework.phonecode}
+                                    <Check
+                                      className={cn(
+                                        'ml-auto',
+                                        value === framework.phonecode
+                                          ? 'opacity-100'
+                                          : 'opacity-0',
+                                      )}
+                                    />
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
                       <Input
                         placeholder="Telefon raqami"
                         {...field}
@@ -158,12 +234,22 @@ const RegisterForm = () => {
                 <FormItem>
                   <Label>Parol</Label>
                   <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="Parol"
-                      {...field}
-                      disabled={isPending}
-                    />
+                    <div className="relative">
+                      <Input
+                        type={pass ? 'text' : 'password'}
+                        placeholder="Parol"
+                        {...field}
+                        disabled={isPending}
+                      />
+                      <Button
+                        type="button"
+                        className="absolute right-0 bottom-0 hover:bg-none"
+                        variant={'ghost'}
+                        onClick={() => setPass((prev) => !prev)}
+                      >
+                        {pass ? <UnlockIcon /> : <LockIcon />}
+                      </Button>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -34,6 +34,9 @@ const Navbar = () => {
   const { data, isLoading } = useQuery({
     queryKey: ['getMe'],
     queryFn: getMe,
+    staleTime: 0,
+    enabled: true,
+    refetchOnMount: true,
   });
 
   useEffect(() => {
@@ -74,11 +77,11 @@ const Navbar = () => {
                 <LoaderCircle className="animate-spin" />
               </Button>
             ) : data?.data ? (
-              <Button variant="outline">
-                <Link href={'/profile/'}>
+              <Link href={'/profile/'}>
+                <Button variant="outline">
                   {data.data.firstName.slice(0, 1).toUpperCase()}
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             ) : (
               <Link href={auth.login.url}>
                 <Button variant="outline">{auth.login.title}</Button>

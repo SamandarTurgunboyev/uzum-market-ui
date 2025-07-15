@@ -2,32 +2,82 @@
 
 import CarouselSection from '@/features/home/carousel/ui/CarouselSection';
 import ProductSection from '@/features/home/products/ui/ProductSection';
-import { allProduct, bigDiscount } from '@/shared/config/api/productApi';
+import {
+  allProduct,
+  bigDiscount,
+  disCountProducts,
+  monthlyProduct,
+} from '@/shared/config/api/productApi';
 import { useQuery } from '@tanstack/react-query';
 
 const Welcome = () => {
-  const { data, isLoading } = useQuery({
-    queryKey: ['allProduct'],
-    queryFn: allProduct,
-    select: (pro) => pro.data,
+  const {
+    data,
+    isLoading: allLoad,
+    isError: allError,
+  } = useQuery({
+    queryKey: ['get-all'],
+    queryFn: () => allProduct({}),
   });
 
-  const { data: carousel } = useQuery({
-    queryKey: ['banner'],
-    queryFn: bigDiscount,
+  const {
+    data: bigDis,
+    isLoading: bigLoad,
+    isError: bigError,
+  } = useQuery({
+    queryKey: ['bigDis'],
+    queryFn: () => bigDiscount({}),
+  });
+
+  const {
+    data: dis,
+    isLoading: disLoad,
+    isError: disError,
+  } = useQuery({
+    queryKey: ['dis'],
+    queryFn: () => disCountProducts({}),
+  });
+
+  const {
+    data: monthly,
+    isLoading: monLoad,
+    isError: monError,
+  } = useQuery({
+    queryKey: ['monthly'],
+    queryFn: () => monthlyProduct({}),
   });
 
   return (
     <div className="custom-container w-full h-full relative">
-      <CarouselSection data={carousel?.data} />
+      <CarouselSection data={bigDis?.data.data} />
       <ProductSection
-        data={data?.data}
-        label="Eng ko'p sotilgan"
-        loading={isLoading}
+        data={bigDis?.data.data}
+        label="Katta chegirmalar"
+        url={'big-discount'}
+        loading={bigLoad}
+        isError={bigError}
       />
-      <ProductSection data={data?.data} label="Ommabop" />
-      <ProductSection data={data?.data} label="Chegirmagan tushganlar" />
-      <ProductSection data={data?.data} label="Reytingi baland" />
+      <ProductSection
+        data={dis?.data.data}
+        label="Chegirmaga tushganlar"
+        url={'discount'}
+        loading={disLoad}
+        isError={disError}
+      />
+      <ProductSection
+        data={monthly?.data.data}
+        label="Shu oydagi mahsulotlar"
+        url={'monthly'}
+        loading={monLoad}
+        isError={monError}
+      />
+      <ProductSection
+        data={data?.data.data}
+        label="Barcha Mahsulotlar"
+        url={'all-product'}
+        loading={allLoad}
+        isError={allError}
+      />
     </div>
   );
 };

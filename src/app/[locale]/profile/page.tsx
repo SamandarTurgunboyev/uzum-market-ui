@@ -1,11 +1,13 @@
 import UserProfile from '@/widgets/profile/ui/UserProfile';
-import React from 'react';
+import AuthLayout from '../authLayout';
 
 const Profile = () => {
   return (
-    <div className="custom-container h-full flex gap-4 max-md:flex-col">
-      <UserProfile />
-    </div>
+    <AuthLayout>
+      <div className="custom-container h-full flex gap-4 max-md:flex-col">
+        <UserProfile />
+      </div>
+    </AuthLayout>
   );
 };
 

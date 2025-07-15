@@ -59,22 +59,25 @@ const ProductPage = () => {
               className="w-full max-w-36 relative h-[600px] max-2xl:h-[450px] max-xl:h-[350px] mt-auto max-md:hidden"
             >
               <CarouselContent className="h-[600px] max-2xl:h-[450px] max-xl:h-[350px]">
-                {data?.media.map((e, index: number) => (
-                  <CarouselItem
-                    key={index}
-                    className="basis-1/3 max-xl:basis-1/2"
-                  >
-                    <div className="p-1">
-                      <Image
-                        src={IMAGE_URL + e}
-                        width={300}
-                        height={400}
-                        alt="Product image"
-                        className="w-full h-[150px] object-cover"
-                      />
-                    </div>
-                  </CarouselItem>
-                ))}
+                {data?.media.map((e, index: number) => {
+                  console.log(IMAGE_URL + '/' + e);
+                  return (
+                    <CarouselItem
+                      key={index}
+                      className="basis-1/3 max-xl:basis-1/2"
+                    >
+                      <div className="p-1">
+                        <Image
+                          src={IMAGE_URL + '/' + e}
+                          width={300}
+                          height={400}
+                          alt="Product image"
+                          className="w-full h-[150px] object-cover"
+                        />
+                      </div>
+                    </CarouselItem>
+                  );
+                })}
               </CarouselContent>
               <div className="absolute top-0 left-1/2 h-full flex justify-between flex-col items-center">
                 <CarouselPrevious />
@@ -90,7 +93,7 @@ const ProductPage = () => {
                   >
                     <div className="p-1">
                       <Image
-                        src={IMAGE_URL + e}
+                        src={IMAGE_URL + '/' + e}
                         width={300}
                         height={400}
                         alt="Product image"

@@ -1,6 +1,6 @@
+import { LanguageRoutes } from '@/shared/config/i18n/types';
 import { Heart, Logs, Percent, ShoppingBag, ShoppingCart } from 'lucide-react';
 import { MenuItem } from './model';
-import { LanguageRoutes } from '@/shared/config/i18n/types';
 
 const menu: MenuItem[] = [
   { title: 'Bosh sahifa', url: '/' },
@@ -9,22 +9,22 @@ const menu: MenuItem[] = [
     url: 'products',
     items: [
       {
-        title: "Eng ko'p sotilgan",
-        description: "Oy davomida eng ko'p sotilgan mahsulotlar",
+        title: 'Katta chegirmalar',
+        description: 'Eng katta chegirmadagi mahsulotat',
         icon: ShoppingBag,
-        url: "/products/Eng ko'p sotilgan",
+        url: '/big-discount',
       },
       {
-        title: 'Ommabop',
-        description: "Ommabop mahsulotlar ro'yxati",
+        title: 'Oy mahsuloti',
+        description: 'Shu oydagi mahsulotlar',
         icon: ShoppingBag,
-        url: '/products/Ommabop',
+        url: '/monthly',
       },
       {
         title: 'Chegirmalar',
         description: 'Chegirma narxidagi mahsulotlar',
         icon: Percent,
-        url: '/products/Chegirmalar',
+        url: '/discount',
       },
       {
         title: 'Kategoriyalar',
@@ -66,8 +66,8 @@ const languages: { name: string; key: LanguageRoutes }[] = [
     key: LanguageRoutes.UZ,
   },
   {
-    name: 'Ўзбекча',
-    key: LanguageRoutes.KI,
+    name: 'Russian',
+    key: LanguageRoutes.RU,
   },
   {
     name: 'English',
@@ -75,4 +75,4 @@ const languages: { name: string; key: LanguageRoutes }[] = [
   },
 ];
 
-export { menu, languages };
+export { languages, menu };

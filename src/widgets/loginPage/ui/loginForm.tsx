@@ -33,7 +33,13 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/shared/ui/popover';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@radix-ui/react-label';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { Check, ChevronsUpDown, Loader } from 'lucide-react';
+import {
+  Check,
+  ChevronsUpDown,
+  Loader,
+  LockIcon,
+  UnlockIcon,
+} from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
@@ -47,6 +53,7 @@ const LoginForm = () => {
     queryFn: getAllCountry,
   });
   const [open, setOpen] = useState(false);
+  const [pass, setPass] = useState<boolean>(false);
   const [value, setValue] = useState('');
   const router = useRouter();
 
@@ -112,8 +119,8 @@ const LoginForm = () => {
                               <>
                                 <Image
                                   src={`https://flagcdn.com/16x12/${country?.data.find((framework) => framework.phonecode === value)?.isoCode.toLowerCase()}.png`}
-                                  width={100}
-                                  height={100}
+                                  width={12}
+                                  height={15}
                                   alt={'coutry'}
                                 />
                                 {
@@ -154,6 +161,8 @@ const LoginForm = () => {
                                     <Image
                                       src={`https://flagcdn.com/16x12/${framework.isoCode.toLowerCase()}.png`}
                                       alt={framework.name}
+                                      width={12}
+                                      height={16}
                                     />
                                     {framework.phonecode}
                                     <Check
@@ -189,12 +198,22 @@ const LoginForm = () => {
                 <FormItem>
                   <Label>Parol</Label>
                   <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="Parol"
-                      {...field}
-                      disabled={isPending}
-                    />
+                    <div className="relative">
+                      <Input
+                        type={pass ? 'text' : 'password'}
+                        placeholder="Parol"
+                        {...field}
+                        disabled={isPending}
+                      />
+                      <Button
+                        type="button"
+                        className="absolute right-0 bottom-0 hover:bg-none"
+                        variant={'ghost'}
+                        onClick={() => setPass((prev) => !prev)}
+                      >
+                        {pass ? <UnlockIcon /> : <LockIcon />}
+                      </Button>
+                    </div>
                   </FormControl>
                   <div className="w-full flex justify-end">
                     <Button

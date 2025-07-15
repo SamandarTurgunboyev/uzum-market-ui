@@ -1,35 +1,53 @@
+import { savedProduct } from '@/shared/config/api/productApi';
+import { ResWithPagination } from '@/shared/config/api/types';
+import { IMAGE_URL } from '@/shared/config/api/URLs';
+import { cn } from '@/shared/lib/utils';
+import { BigDiscountProductResModel } from '@/shared/types/productApi';
 import { Button } from '@/shared/ui/button';
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from '@/shared/ui/pagination';
+import IsError from '@/widgets/isError/IsError';
+import Loading from '@/widgets/loading/Loading';
+import RealPagination from '@/widgets/realPagination/RealPagination';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { ChevronRight, Heart, ShoppingCart, Star } from 'lucide-react';
+import { ApiError } from 'next/dist/server/api-utils';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { FC } from 'react';
+import { FC } from 'react';
+import { toast } from 'sonner';
 import FilterMobile from '../../filter/ui/FilterMobile';
 
 interface Props {
-  data: Data[];
+  data: ResWithPagination<BigDiscountProductResModel> | undefined;
   label?: string;
+  isLoading: boolean;
+  isError: boolean;
 }
 
-interface Data {
-  image: string;
-  name: string;
-  like: boolean;
-  price: string;
-  discount?: string;
-  rating: string;
-  id: number;
-}
+const ProductCards: FC<Props> = ({ data, label, isLoading, isError }) => {
+  const queryClient = useQueryClient();
+  const { mutate } = useMutation({
+    mutationFn: (id: number | string) => {
+      return savedProduct({ id: id });
+    },
+    onSuccess: (res) => {
+      toast.success(res.data.message);
+      const keysToInvalidate = [
+        ['get-all'],
+        ['bigDis'],
+        ['dis'],
+        ['monthly'],
+        ['saved'],
+        ['my-product'],
+      ];
+      keysToInvalidate.forEach((key) => {
+        queryClient.invalidateQueries({ queryKey: key });
+      });
+    },
+    onError: (err: ApiError) => {
+      toast.error(err.message || 'Xatolik yzu berdi');
+    },
+  });
 
-const ProductCards: FC<Props> = ({ data, label }) => {
   return (
     <div className="mt-10 w-full">
       {label && (
@@ -45,68 +63,92 @@ const ProductCards: FC<Props> = ({ data, label }) => {
           </div>
         </Link>
       )}
-      <div className="w-full mt-10 h-full">
-        <div className="grid grid-cols-4 gap-4 max-xl:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1">
-          {data.slice(0, 12).map((e, index) => (
-            <div key={index} className="relative">
-              <Link href={`/product/${e.id}`}>
-                <Image
-                  src="https://placehold.co/300x400.jpg"
-                  width={1280}
-                  height={700}
-                  alt="Product1"
-                />
-                <h1 className="px-2">
-                  {e.name.length > 60 ? e.name.slice(0, 60) : e.name}...
-                </h1>
-              </Link>
-              <div className="flex px-2 text-muted-foreground items-center gap-2">
-                <Star size={16} fill="gold" color="gold" />
-                <p>{e.rating}</p>
-              </div>
-              <div className="mt-5 flex justify-between px-2">
-                <p className="font-bold">
-                  {e.price}
-                  <span className="text-muted-foreground px-2 line-through">
-                    {e.discount}
-                  </span>
-                </p>
-                <Button
-                  className="rounded-md"
-                  variant={'outline'}
-                  aria-label="saved"
-                >
-                  <ShoppingCart />
-                </Button>
-              </div>
-              <div className="absolute top-1 right-1">
-                <Button variant={'outline'} aria-label="like">
-                  <Heart
-                    color={e.like ? 'red' : 'black'}
-                    fill={e.like ? 'red' : 'white'}
-                  />
-                </Button>
-              </div>
-            </div>
-          ))}
+      {isError ? (
+        <IsError title="Xatolik yuz ber" />
+      ) : (
+        <div className="w-full mt-10 h-full">
+          <div
+            className={cn(
+              isError || (data?.data && data.data.length <= 0)
+                ? 'grid grid-cols-1'
+                : 'grid grid-cols-4 gap-4 max-xl:grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1',
+            )}
+          >
+            {isLoading ? (
+              <>
+                {Array.from({ length: 15 }).map((_, e) => (
+                  <Loading key={e} />
+                ))}
+              </>
+            ) : (
+              <>
+                {data?.data && data.data.length > 0 ? (
+                  <>
+                    {data?.data.map((e, index) => (
+                      <article className="relative h-full" key={index}>
+                        <Link href={`/product/${e.id}`}>
+                          <Image
+                            src={
+                              e.media.length > 0
+                                ? IMAGE_URL + '/' + e.media[0]
+                                : 'https://placehold.co/600x400'
+                            }
+                            width={300}
+                            height={400}
+                            alt={e.name || 'Product image'}
+                            className="w-full h-[300px] object-cover"
+                          />
+                          <h3 className="px-2 truncate">{e.name}</h3>
+                          <p className="flex items-center px-2 text-muted-foreground gap-1">
+                            <Star size={16} fill="gold" color="gold" />
+                            {e.rating}
+                          </p>
+                        </Link>
+                        <div className="flex justify-between items-center px-2 mt-2">
+                          <span className="font-bold">
+                            {e.disCount ? <>{e.disPrice}</> : <>{e.price}</>}
+                            {e.disCount && (
+                              <span className="text-muted-foreground px-2 line-through">
+                                {e.price}
+                              </span>
+                            )}
+                          </span>
+                          <Button
+                            variant="outline"
+                            size="icon"
+                            aria-label="add to cart"
+                          >
+                            <ShoppingCart size={18} />
+                          </Button>
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="icon"
+                          className="absolute top-1 right-1"
+                          aria-label="like"
+                          onClick={() => mutate(e.slug)}
+                        >
+                          <Heart
+                            color={e.isFavorite ? 'red' : 'black'}
+                            fill={e.isFavorite ? 'red' : 'white'}
+                            size={18}
+                          />
+                        </Button>
+                      </article>
+                    ))}
+                  </>
+                ) : (
+                  <IsError title="Xech narsa topilmadi" />
+                )}
+              </>
+            )}
+          </div>
+          <RealPagination
+            totalPages={data?.total_pages || 1}
+            currentPage={data?.page || 1}
+          />
         </div>
-        <Pagination className="w-full flex justify-end mt-10">
-          <PaginationContent>
-            <PaginationItem>
-              <PaginationPrevious href="#" />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationLink href="#">1</PaginationLink>
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationEllipsis />
-            </PaginationItem>
-            <PaginationItem>
-              <PaginationNext href="#" />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+      )}
     </div>
   );
 };
