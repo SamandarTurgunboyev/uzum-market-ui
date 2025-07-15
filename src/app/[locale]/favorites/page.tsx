@@ -1,10 +1,12 @@
 import MyFavorite from '@/widgets/favorites/ui';
-import React from 'react';
+import { Suspense } from 'react';
 
 const Favorites = () => {
   return (
     <div className="custom-container">
-      <MyFavorite />
+      <Suspense fallback={<div>Yuklanmoqda...</div>}>
+        <MyFavorite />
+      </Suspense>
     </div>
   );
 };

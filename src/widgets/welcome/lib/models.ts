@@ -5,4 +5,5 @@ export interface ProductData {
   price: string;
   discount?: string;
   rating: string;
+  id: number;
 }

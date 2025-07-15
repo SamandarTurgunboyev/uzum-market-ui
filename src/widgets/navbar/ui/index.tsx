@@ -1,3 +1,6 @@
+import { getMe } from '@/shared/config/api/authApi';
+import { PRODUCT_INFO } from '@/shared/constants/data';
+import { userStore } from '@/shared/hooks/userStore';
 import { Accordion } from '@/shared/ui/accordion';
 import { Button } from '@/shared/ui/button';
 import {
@@ -11,20 +14,34 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/shared/ui/sheet';
-import { Menu } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import { LoaderCircle, Menu } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect } from 'react';
 import { menu } from '../lib/data';
-import { PRODUCT_INFO } from '@/shared/constants/data';
+import { ChangeLang } from './ChangeLang';
 import RenderMenuItem from './RenderItem';
 import RenderMobileMenuItem from './RenderMobileMenuItem';
-import { ChangeLang } from './ChangeLang';
-import Link from 'next/link';
-import Image from 'next/image';
 
 const Navbar = () => {
   const auth = {
-    login: { title: 'Login', url: '#' },
-    signup: { title: 'Sign up', url: '#' },
+    login: { title: 'Login', url: '/auth' },
   };
+
+  const { onChangeUser } = userStore();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['getMe'],
+    queryFn: getMe,
+    staleTime: 0,
+    enabled: true,
+    refetchOnMount: true,
+  });
+
+  useEffect(() => {
+    onChangeUser(data?.data);
+  }, [data?.data, onChangeUser]);
 
   return (
     <section className="py-4">
@@ -39,6 +56,8 @@ const Navbar = () => {
             >
               <Image
                 src={PRODUCT_INFO.logo}
+                width={100}
+                height={100}
                 className="w-full"
                 alt={PRODUCT_INFO.name}
               />
@@ -53,12 +72,21 @@ const Navbar = () => {
           </div>
           <div className="flex gap-2 items-center">
             <ChangeLang />
-            <Button asChild variant="outline">
-              <Link href={auth.login.url}>{auth.login.title}</Link>
-            </Button>
-            <Button asChild>
-              <Link href={auth.signup.url}>{auth.signup.title}</Link>
-            </Button>
+            {isLoading ? (
+              <Button variant="outline">
+                <LoaderCircle className="animate-spin" />
+              </Button>
+            ) : data?.data ? (
+              <Link href={'/profile/'}>
+                <Button variant="outline">
+                  {data.data.firstName.slice(0, 1).toUpperCase()}
+                </Button>
+              </Link>
+            ) : (
+              <Link href={auth.login.url}>
+                <Button variant="outline">{auth.login.title}</Button>
+              </Link>
+            )}
           </div>
         </nav>
 
@@ -66,10 +94,12 @@ const Navbar = () => {
         <div className="block lg:hidden">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href={'/'} className="flex items-center gap-2">
+            <Link href={'/'} className="flex items-center gap-2 h-14">
               <Image
+                width={100}
+                height={100}
                 src={PRODUCT_INFO.logo}
-                className="max-h-16"
+                className="w-auto h-auto"
                 alt={PRODUCT_INFO.name}
               />
             </Link>
@@ -89,6 +119,8 @@ const Navbar = () => {
                       <Image
                         src={PRODUCT_INFO.logo}
                         className="max-h-16"
+                        width={100}
+                        height={100}
                         alt={PRODUCT_INFO.name}
                       />
                     </Link>
@@ -106,9 +138,6 @@ const Navbar = () => {
                   <div className="flex flex-col gap-3">
                     <Button asChild variant="outline">
                       <Link href={auth.login.url}>{auth.login.title}</Link>
-                    </Button>
-                    <Button asChild>
-                      <Link href={auth.signup.url}>{auth.signup.title}</Link>
                     </Button>
                   </div>
                 </div>
