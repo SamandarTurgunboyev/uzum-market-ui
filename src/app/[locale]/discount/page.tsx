@@ -4,7 +4,15 @@ import { disCountProducts } from '@/shared/config/api/productApi';
 import ProductCard from '@/widgets/productCard/ui';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+
+export default function DiscontPage() {
+  return (
+    <Suspense fallback={<div>Yuklanmoqda...</div>}>
+      <Discont />
+    </Suspense>
+  );
+}
 
 const Discont = () => {
   const searchParams = useSearchParams();
@@ -40,14 +48,14 @@ const Discont = () => {
 
   return (
     <div className="custom-container">
-      <ProductCard
-        title={'Chegirmalar'}
-        data={dis?.data.data}
-        isLoading={isLoading}
-        isError={isError}
-      />
+      <Suspense fallback={<div> Yuklanmoqda...</div>}>
+        <ProductCard
+          title={'Chegirmalar'}
+          data={dis?.data.data}
+          isLoading={isLoading}
+          isError={isError}
+        />
+      </Suspense>
     </div>
   );
 };
-
-export default Discont;

@@ -4,7 +4,15 @@ import { bigDiscount } from '@/shared/config/api/productApi';
 import ProductCard from '@/widgets/productCard/ui';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+
+export default function BigDiscontPage() {
+  return (
+    <Suspense fallback={<div>Yuklanmoqda...</div>}>
+      <BigDiscont />
+    </Suspense>
+  );
+}
 
 const BigDiscont = () => {
   const searchParams = useSearchParams();
@@ -41,14 +49,14 @@ const BigDiscont = () => {
 
   return (
     <div className="custom-container">
-      <ProductCard
-        title={'Katta chegirmalar'}
-        data={bigDis?.data.data}
-        isLoading={isLoading}
-        isError={isError}
-      />
+      <Suspense fallback={<div>Yuklanmoqda...</div>}>
+        <ProductCard
+          title={'Katta chegirmalar'}
+          data={bigDis?.data.data}
+          isLoading={isLoading}
+          isError={isError}
+        />
+      </Suspense>
     </div>
   );
 };
-
-export default BigDiscont;

@@ -4,7 +4,15 @@ import { allProduct } from '@/shared/config/api/productApi';
 import ProductCard from '@/widgets/productCard/ui';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+
+export default function AllProductPage() {
+  return (
+    <Suspense fallback={<div>Yuklanmoqda...</div>}>
+      <AllProduct />
+    </Suspense>
+  );
+}
 
 const AllProduct = () => {
   const searchParams = useSearchParams();
@@ -40,14 +48,14 @@ const AllProduct = () => {
 
   return (
     <div className="custom-container">
-      <ProductCard
-        title={'Barcha mahsulotlar'}
-        data={dis?.data.data}
-        isLoading={isLoading}
-        isError={isError}
-      />
+      <Suspense fallback={<div>Yuklanmoqda...</div>}>
+        <ProductCard
+          title={'Barcha mahsulotlar'}
+          data={dis?.data.data}
+          isLoading={isLoading}
+          isError={isError}
+        />
+      </Suspense>
     </div>
   );
 };
-
-export default AllProduct;

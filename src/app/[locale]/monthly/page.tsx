@@ -4,7 +4,15 @@ import { monthlyProduct } from '@/shared/config/api/productApi';
 import ProductCard from '@/widgets/productCard/ui';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+
+export default function MonthlyPage() {
+  return (
+    <Suspense fallback={<div>Yuklanmoqda...</div>}>
+      <Monthly />
+    </Suspense>
+  );
+}
 
 const Monthly = () => {
   const searchParams = useSearchParams();
@@ -49,5 +57,3 @@ const Monthly = () => {
     </div>
   );
 };
-
-export default Monthly;
