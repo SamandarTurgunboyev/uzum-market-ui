@@ -1,3 +1,5 @@
+'use client';
+
 import ProductCards from '@/features/products/products/ui/ProductSection';
 import { myProduct } from '@/shared/config/api/productApi';
 import { Card, CardContent } from '@/shared/ui/card';
